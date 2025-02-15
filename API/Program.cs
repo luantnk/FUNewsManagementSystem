@@ -13,7 +13,8 @@ var config = TypeAdapterConfig.GlobalSettings;
 config.Scan(typeof(MappingProfile).Assembly);
 builder.Services.AddSingleton(config);
 builder.Services.AddScoped<IMapper, Mapper>();
-
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureRepositories();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServices();
 
@@ -34,7 +35,9 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}")
+        pattern: "{controller=Auth}/{action=Login}/{id?}")
     .WithStaticAssets();
+
+
 
 app.Run();

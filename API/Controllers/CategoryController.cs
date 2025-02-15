@@ -56,10 +56,10 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, CategoryForUpdateDto categoryDto)
     {
-        if (id != categoryDto.Id)
-        {
-            return BadRequest();
-        }
+        // if (id != categoryDto.Ca)
+        // {
+        //     return BadRequest();
+        // }
 
         if (ModelState.IsValid)
         {
