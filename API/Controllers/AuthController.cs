@@ -10,25 +10,28 @@ public class AuthController : Controller
 
     public AuthController(IAuthService authService) => _authService = authService;
 
-    [HttpGet]
-    public IActionResult Login()
-    {
-        return View();
-    }
-
     [HttpPost]
     public async Task<IActionResult> Login(LoginDto model)
     {
-        if (!ModelState.IsValid)  
+        if (!ModelState.IsValid)
         {
             return View(model);
         }
-        bool isAuthenticated = model.Email != null && await _authService.Login(model.Email, model.Password);
-        if (!isAuthenticated)
+        string? userRole = model.Email != null ? await _authService.Login(model.Email, model.Password) : null;
+        if (userRole == null)
         {
             ViewBag.ErrorMessage = "Invalid email or password!";
             return View(model);
         }
-        return RedirectToAction("Index", "Home"); 
+        HttpContext.Session.SetString("UserRole", userRole);
+        return userRole switch
+        {
+            "Lecturer" => RedirectToAction("NewsArticle", "NewsArticle"),
+            "Admin" => RedirectToAction("Dashboard", "Admin"), 
+            "Student" => RedirectToAction("StudentHome", "Student"), 
+            _ => RedirectToAction("Index", "Home")
+        };
     }
+
+
 }

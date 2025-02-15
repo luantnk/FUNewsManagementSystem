@@ -10,10 +10,13 @@ public class AuthService : IAuthService
 
     public AuthService(ISystemAccountRepository systemAccountRepository) => _systemAccountRepository = systemAccountRepository;
 
-    public async Task<bool> Login(string email, string password)
+    public async Task<string?> Login(string email, string password)
     {
-        var account = await _systemAccountRepository.FindByCondition(sa => sa.Email == email && sa.AccountPassword == password)
+        var account = await _systemAccountRepository
+            .FindByCondition(sa => sa.Email == email && sa.AccountPassword == password)
             .FirstOrDefaultAsync();
-        return account != null;
+
+        return account?.AccountRole;
     }
+
 }
