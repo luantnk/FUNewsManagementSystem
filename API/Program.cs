@@ -1,19 +1,15 @@
-using API;
 using API.Extensions;
-using Mapster;
-using MapsterMapper;
+using BusinessObjects.Context;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Configure Mapster
-var config = TypeAdapterConfig.GlobalSettings;
-config.Scan(typeof(MappingProfile).Assembly);
-builder.Services.AddSingleton(config);
-builder.Services.AddScoped<IMapper, Mapper>();
-builder.Services.ConfigureSqlContext(builder.Configuration);
+// Add DbContext with configuration
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FUNewsManagementSystem")));
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServices();
@@ -28,16 +24,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Auth}/{action=Login}/{id?}")
-    .WithStaticAssets();
-
-
+    name: "default",
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();

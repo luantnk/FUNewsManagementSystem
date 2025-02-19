@@ -9,12 +9,19 @@ using Mapster;
 
 namespace API.Controllers
 {
+    [Route("NewsArticles")]
     public class NewsArticleController : Controller
     {
         private readonly INewsArticleService _newsArticleService;
 
         public NewsArticleController(INewsArticleService newsArticleService) 
             => _newsArticleService = newsArticleService;
+        
+        public IActionResult NewArticles()
+        {
+            var articles = new List<NewsArticleDto>(); // Sample empty list
+            return View(articles); // Ensure you are returning a model that matches the view
+        }
         
         [HttpGet]
         public async Task<IActionResult> Form(Guid? id)
@@ -29,7 +36,7 @@ namespace API.Controllers
                 var updateDto = existingArticle.Adapt<NewsArticleForUpdateDto>();
                 return View("NewsArticleForm", updateDto);
             }
-            return View("NewsArticleForm", new NewsArticleForCreationDto());
+            return View("NewsArticleForm", new NewsArticleForCreationDto()); 
         }
 
         [HttpPost]

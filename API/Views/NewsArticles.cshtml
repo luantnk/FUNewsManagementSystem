@@ -39,14 +39,18 @@
                         <td>@article.Headline</td>
                         <td>@article.NewsSource</td>
                         <td>
-                            <span class="badge @(article.NewsStatus == "Published" ? "bg-success" : "bg-warning")">
+                            @{ var statusClass = article.NewsStatus == "Published" ? "bg-success" : "bg-warning"; }
+                            <span class="badge @statusClass">
                                 @article.NewsStatus
-                            </span>
+                             </span>
                         </td>
+
                         <td>
-                            <a asp-controller="NewsArticle" asp-action="Form" asp-route-id="@article.NewsArticleId" class="btn btn-warning btn-sm">Edit</a>
-                            <form asp-controller="NewsArticle" asp-action="Delete" method="post" onsubmit="return confirm('Are you sure?');" class="d-inline">
-                                <input type="hidden" name="id" value="@article.NewsArticleId" />
+                            <a asp-controller="NewsArticle" asp-action="Form" asp-route-id="@article.NewsArticleId"
+                               class="btn btn-warning btn-sm">Edit</a>
+                            <form asp-controller="NewsArticle" asp-action="Delete" method="post"
+                                  onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                <input type="hidden" name="id" value="@article.NewsArticleId"/>
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         </td>

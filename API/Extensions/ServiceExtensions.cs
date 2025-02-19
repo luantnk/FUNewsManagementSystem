@@ -34,7 +34,6 @@ public static class ServiceExtensions
         services.AddScoped<ISystemAccountService, SystemAccountService>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IAuthService, AuthService>();
-
         #endregion
     }
     
