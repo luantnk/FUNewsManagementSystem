@@ -11,9 +11,13 @@ namespace API.Extensions;
 
 public static class ServiceExtensions
 {
+    
+    #region Repository Manager
     public static void ConfigureRepositoryManager(this IServiceCollection services) =>
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+    #endregion
 
+    #region Repositories
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -22,9 +26,11 @@ public static class ServiceExtensions
         services.AddScoped<ISystemAccountRepository, SystemAccountRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
     }
-      
+    
 
+    #endregion
 
+    #region Services
     public static void ConfigureServices(this IServiceCollection services)
     {
         #region Services
@@ -36,10 +42,16 @@ public static class ServiceExtensions
         services.AddScoped<IAuthService, AuthService>();
         #endregion
     }
-    
+    #endregion
+
+    #region SqlContext
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<ApplicationDbContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("FUNewsManagementSystem")));
+
+    
+
+    #endregion
 
 
 }

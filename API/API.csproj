@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\NewsArticle\NewsArticleForm.cshtml" />
+    </ItemGroup>
+
 </Project>
